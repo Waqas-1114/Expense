@@ -25,13 +25,9 @@ const Login = () => {
     };
 
     return (
-<<<<<<< HEAD
 
         <div className="h-screen w-screen flex bg-[#E7E0FB] justify-center items-center relative">
 
-=======
-        <div className="h-screen w-screen flex bg-[#E7E0FB] justify-center items-center relative p-4 sm:p-0">
->>>>>>> 84d0013f3872312c4e760a0cc90821c7d223f93e
             {/* Background Video */}
             <video
                 loop
