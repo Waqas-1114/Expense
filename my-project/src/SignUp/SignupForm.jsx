@@ -1,12 +1,9 @@
-// import  createUserWithEmailAndPassword  from '../Auth/firebase/auth';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import React from 'react';
 import { auth, db } from '../Auth/firebase';
-
 import { setDoc, doc } from 'firebase/firestore';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
 
 function SignupForm() {
     const [firstName, setFirstName] = useState('');
@@ -22,7 +19,6 @@ function SignupForm() {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-
         console.log('Form submitted:', {
             firstName,
             lastName,
@@ -36,7 +32,6 @@ function SignupForm() {
         try {
             await createUserWithEmailAndPassword(auth, email, password);
             const user = auth.currentUser;
-            console.log(user);
             if (user) {
                 await setDoc(doc(db, "Users", user.uid), {
                     firstName: firstName,
@@ -45,62 +40,47 @@ function SignupForm() {
                     userName: username,
                     password: password,
                     confirmPassword: confirmPassword,
-                })
+                });
             }
-            console.log("Form submitted.");
-        }
-
-        catch (error) {
+            console.log("User data stored in Firestore.");
+        } catch (error) {
             console.log(error.message);
         }
-
-        // console.log('Form submitted:', {
-        //     firstName,
-        //     lastName,
-        //     email,
-        //     username,
-        //     password,
-        //     confirmPassword,
-        // });
-
     };
 
     return (
-        <div className="flex border-2 px-5 rounded-3xl border-gray-400 w-[80%] ml-28 h-[640px] bg-violet-100 mx-auto ">
-            <div
-                className="w-full rounded-xl shadow-md cursor-pointer flex items-center justify-center"
-            >
+        <div className="flex flex-col md:flex-row border-2 px-5 rounded-3xl border-gray-400 w-full max-w-[90%] h-auto md:h-[640px] bg-violet-100 mx-auto my-8">
+            <div className="w-full md:w-1/2 rounded-xl shadow-md cursor-pointer flex items-center justify-center">
                 <img
                     src="/assets/first1.png"
-                    className=" h-[600px] w-screen rounded-xl object-fit"
-                    alt="Login Visual"
+                    className="h-full w-full md:h-[600px] md:w-auto rounded-xl object-cover"
+                    alt="Signup Visual"
                 />
             </div>
-            <div className="container pl-2 ">
-
+            <div className="w-full md:w-1/2 container pl-2">
                 <form onSubmit={handleSubmit} className="bg-white shadow-lg rounded-xl px-8 pt-4 pb-8 mb-4 mt-4">
                     <h1 className="text-3xl font-bold mb-2 text-center font-mono">New to Us?</h1>
-                    <div className="flex space-x-3">
-                        <div className="mb-4">
+                    <div className="flex flex-col md:flex-row md:space-x-3">
+                        <div className="mb-4 w-full">
                             <label htmlFor="firstName" className="block text-gray-700 text-sm font-bold mb-2">
                                 First Name
                             </label>
                             <input
                                 type="text"
                                 id="firstName"
-                                className="shadow-md border  rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                className="shadow-md border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                 value={firstName}
                                 onChange={(e) => setFirstName(e.target.value)}
                             />
                         </div>
-                        <div className="mb-4">
+                        <div className="mb-4 w-full">
                             <label htmlFor="lastName" className="block text-gray-700 text-sm font-bold mb-2">
                                 Last Name
                             </label>
                             <input
                                 type="text"
                                 id="lastName"
-                                className="shadow-md appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                className="shadow-md border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                 value={lastName}
                                 onChange={(e) => setLastName(e.target.value)}
                             />
@@ -113,7 +93,7 @@ function SignupForm() {
                         <input
                             type="email"
                             id="email"
-                            className="shadow-md  border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            className="shadow-md border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                         />
@@ -143,21 +123,10 @@ function SignupForm() {
                                 onChange={(e) => setPassword(e.target.value)}
                             />
                             <span
-                                className="absolute inset-y-0 right-0 flex items-center pr-2"
+                                className="absolute inset-y-0 right-0 flex items-center pr-2 cursor-pointer"
                                 onClick={() => setShowPassword(!showPassword)}
                             >
-                                {showPassword ? (
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                                    </svg>
-
-                                ) : (
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88" />
-                                    </svg>
-
-                                )}
+                                {/* Add icon here */}
                             </span>
                         </div>
                     </div>
@@ -174,27 +143,16 @@ function SignupForm() {
                                 onChange={(e) => setConfirmPassword(e.target.value)}
                             />
                             <span
-                                className="absolute inset-y-0 right-0 flex items-center pr-2"
+                                className="absolute inset-y-0 right-0 flex items-center pr-2 cursor-pointer"
                                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                             >
-                                {showConfirmPassword ? (
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                                    </svg>
-
-                                ) : (
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88" />
-                                    </svg>
-
-                                )}
+                                {/* Add icon here */}
                             </span>
                         </div>
                     </div>
-                    <p className="text-xs text-gray-500 mb-4  italic">
+                    <p className="text-xs text-gray-500 mb-4 italic">
                         *password must not be less than 8 letters, and should contain an
-                        UPPERCASE, an LOWERCASE, a number and a special character
+                        UPPERCASE, a LOWERCASE, a number and a special character
                     </p>
                     <button
                         type="submit"
