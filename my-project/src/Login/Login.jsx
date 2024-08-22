@@ -33,7 +33,7 @@ export const Login = () => {
 
     return (
 
-        <div className="h-screen w-screen flex bg-[#E7E0FB] justify-center items-center relative" onSubmit={handleSubmit}>
+        <div className="h-screen w-screen flex bg-[#E7E0FB] justify-center items-center relative">
 
             {/* Background Video */}
             <video
