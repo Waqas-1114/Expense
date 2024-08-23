@@ -351,7 +351,8 @@ const Body = () => {
                                 </tr>
                             </tbody>
                         </table>
-                        <button className="float-right px-3 py-3 font-bold text-gray-500 " onClick={() => setShowModal(true)}><span className="font-bold text-gray-700 px-2 ">+</span>Add</button>
+                        <button className="float-right px-3 py-3 font-bold text-gray-500 "><span className="font-bold text-gray-700 px-2 "></span>Add</button>
+
 
 
                     </div>
@@ -401,10 +402,7 @@ const Body = () => {
                     <div className="border-l border-b-0 px-4 py-5 ">
                         <div className="flex justify-between">
                             <h1 className="font-bold"> Saving Plan</h1>
-                            <div className="flex justify-between gap-3 items-center">
-                                <button>+</button>
-                                <h1 className="font-bold text-sm" onClick={handlePlans}></h1>
-                            </div>
+                            
                         </div>
                         <div className="flex-col gap-3 mt-3 mb-3 ">
                             <div className="h-36 max-w-sm bg-white rounded-2xl mb-3 border px-4 ">
